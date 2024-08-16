@@ -26,6 +26,8 @@ void mod(number_t a, number_t b, number_t res);
 
 int main() {
   number_t a, b, c;
+  char INP_FMT[5];
+  sprintf(INP_FMT, "%%%ds", BITS);
   char ch_a[9], ch_b[9], op[2];
   printf("Input format:  A op B\n"
          "A, B: %d digits binary number\n"
@@ -35,16 +37,16 @@ int main() {
   char *str_a;
   char *str_b;
   char *str_c;
-  while (1) {
+  do {
     fflush(stdin);
     printf("> ");
-    scanf("%8s", ch_a);
-    if (strcmp(ch_a, "q") == 0)
-      return 0;
+    if (scanf(INP_FMT, ch_a) == EOF) return 0;
+    if (strcmp(ch_a, "q")==0) return 0;
     if (read_num(ch_a, &a)) {
       continue;
     }
-    scanf("%1s %8s", op, ch_b);
+    scanf("%1s", op);
+    scanf(INP_FMT, ch_b);
     if (read_num(ch_b, &b)) {
       continue;
     }
@@ -58,10 +60,10 @@ int main() {
       break;
     case '*':
     case '/':
-      printf("Unimplemented operand %s\n", op);
+      printf("Operator %s is not implemented\n", op);
       continue;
     default:
-      printf("Invalid operand %s\n", op);
+      printf("Invalid operator %s\n", op);
       continue;
     }
 
@@ -69,9 +71,9 @@ int main() {
     str_b = to_string(b);
     str_c = to_string(c);
 
-    printf(" %s\n%s\n %s\n=--------\n %s\n", str_a, op, str_b, str_c);
+    printf(" %s\n%s\n %s\n=%*s\n %s\n", str_a, op, str_b, BITS, "--------", str_c);
     number_t na;
-  }
+  } while (1);
   free(str_a);
   free(str_b);
   free(str_c);
